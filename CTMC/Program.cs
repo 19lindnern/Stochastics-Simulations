@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
 using System.Security.Policy;
 
@@ -37,65 +40,29 @@ namespace CTMC
                 Directory.CreateDirectory(Globals.ApplicationDataPath);
             }
             
+            
             //Create Matrix Path if it doesnt exist
             if (!Directory.Exists(Globals.MatricesPath))
             {
                 Directory.CreateDirectory(Globals.MatricesPath);
             }
+
+            Globals.MarkovProcesses = new List<MarkovProcess>();
             
-            MainMenu = new Menu(Globals.MainMenuHeader, Globals.MainMenuOptions);
+            Globals.MainMenuInstance = new MainMenu(Globals.MainMenuHeader, Globals.MainMenuOptions);
+            Globals.MatrixMenuInstance = new MatrixMenu(Globals.MatrixMenuHeader, Globals.DefaultOptions);
+            Globals.ChainSimMenuInstance = new ChainSimMenu(Globals.ChaimSimMenuHeader, Globals.ChaimSimMenuOptions);
+            Globals.MarkovMenuInstance = new MarkovMenu(Globals.MarkovMenuHeader, Globals.DefaultOptions);
+
+            Globals.Controller = new MenuController();
+            
             
             while (true)
             {
-                RunMainMenu();
+                Globals.Controller.Run();
             }
         }
-
-        public static void RunMainMenu()
-        {
-            Console.Clear();
-            MainMenu.DrawOptions();
-            
-            ConsoleKeyInfo keyPress = Console.ReadKey();
-
-            if (keyPress.Key == ConsoleKey.UpArrow)
-            {
-                MainMenu.IncrementSelection();
-            }
-            
-            else if (keyPress.Key == ConsoleKey.DownArrow)
-            {
-                MainMenu.DecrementSelection();
-            }
-            
-            else if (keyPress.Key == ConsoleKey.Enter)
-            {
-                switch (MainMenu.GetSelection())
-                {
-                    case 0:
-                        Console.Clear();
-                        BuildMatrixMenu();
-                        RunMatrixMenu();
-                        break;
-                    case 1:
-                        Console.Clear();
-                        RunSimulationMenu();
-                        break;
-                    case 2:
-                        Console.Clear();
-                        SetInitialState();
-                        break;
-                    case 3:
-                        Environment.Exit(0);
-                        break;
-                }
-            }
-            
-            Console.Clear();
-            return;
-            
-        }
-
+        
         public static void SetInitialState()
         {
             Console.Clear();
@@ -132,64 +99,6 @@ namespace CTMC
         {
             
         }
-        
-        
-
-        public static void RunMatrixMenu()
-        {
-            MatrixMenu.DrawOptions();
-            
-            ConsoleKeyInfo keyPress = Console.ReadKey();
-
-            if (keyPress.Key == ConsoleKey.UpArrow)
-            {
-                MatrixMenu.IncrementSelection();
-            }
-            
-            else if (keyPress.Key == ConsoleKey.DownArrow)
-            {
-                MatrixMenu.DecrementSelection();
-            }
-            
-            else if (keyPress.Key == ConsoleKey.Q)
-            {
-                Console.Clear();
-                return;
-            }
-            
-            else if (keyPress.Key == ConsoleKey.Enter)
-            {
-                string[] paths = Directory.GetFiles(Globals.MatricesPath);
-                try
-                {
-                    Q = new Matrix(paths[MatrixMenu.GetSelection()]);
-                    Console.WriteLine($"{paths[MatrixMenu.GetSelection()]} loaded successfully.");
-                    Console.WriteLine("Press any key to continue");
-                    Console.ReadKey(true);
-                }
-                catch (Exception e)
-                {
-                    Console.Clear();
-                    Console.WriteLine("Matrix file invalid.");
-                    Console.WriteLine("Press any key to continue");
-                    Console.ReadKey(true);
-                }
-            }
-            Console.Clear();
-            RunMatrixMenu();
-        }
-
-        public static void BuildMatrixMenu()
-        {
-            string[] options = Directory.GetFiles(Globals.MatricesPath);
-            for (int i = 0; i < options.Length; i++)
-            {
-                options[i] = Path.GetFileName(options[i]);
-            }
-            string header = "Select a matrix file. Press 'Q' to return to the main menu.";
-            MatrixMenu = new Menu(header, options);
-        }
-        
         
         private static void GetMatrixFromUser(string matrixFilePath)
         {

@@ -15,9 +15,10 @@ namespace CTMC
         private int InitialState;
         private int FinalState;
         private double Time;
+        private string Name;
         private List<(double, double, int, int)> SimData; //Arrival time, Inter-arrival time, origin, destination 
 
-        public MarkovProcess(Matrix gen, int initialState)
+        public MarkovProcess(Matrix gen, int initialState, string name)
         {
             if (!gen.IsGenerator())
             {
@@ -36,6 +37,7 @@ namespace CTMC
             U = new Random();
             SimData = new List<(double, double, int, int)>();
             SimCounter = 0;
+            Name = name;
         }
 
         public void PrintMatrix()
@@ -97,6 +99,16 @@ namespace CTMC
                     writer.WriteLine(output);
                 }
             }
+        }
+
+        public void SetName(string name)
+        {
+            Name = name;
+        }
+
+        public string GetName()
+        {
+            return Name;
         }
     }
 }

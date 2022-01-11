@@ -5,9 +5,16 @@ namespace CTMC
 {
     public class Menu
     {
-        private int Selection;
-        private string[] Options;
-        private string Header;
+        protected int Selection;
+        protected string[] Options;
+        protected string Header;
+
+        protected Menu()
+        {
+            Header = "Default Menu Header";
+            Options = new string[2];
+            Selection = 0;
+        }
         
         public Menu(string header, string[] options)
         {

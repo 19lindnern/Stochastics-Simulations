@@ -38,11 +38,16 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="ChainSimMenu.cs" />
         <Compile Include="Exponential.cs" />
         <Compile Include="Globals.cs" />
+        <Compile Include="MainMenu.cs" />
+        <Compile Include="MarkovMenu.cs" />
         <Compile Include="MarkovProcess.cs" />
         <Compile Include="Matrix.cs" />
+        <Compile Include="MatrixMenu.cs" />
         <Compile Include="Menu.cs" />
+        <Compile Include="MenuController.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
