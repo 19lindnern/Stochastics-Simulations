@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 
 namespace CTMC
 {
@@ -41,8 +42,20 @@ namespace CTMC
                 {
                     Globals.Q = new Matrix(paths[Selection]);
                     Console.WriteLine($"{paths[Selection]} loaded successfully.");
+
+                    if (!Globals.Q.IsGenerator())
+                    {
+                        Console.WriteLine($"{paths[Selection]} does not contain a valid generator matrix.");
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey(true);
+                        Console.Clear();
+                        Run();
+                    }
+                    
+                    
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey(true);
+                    return;
                 }
                 catch (Exception e)
                 {

@@ -24,7 +24,7 @@ namespace CTMC
  | |  | || (_| || |   |   <| (_) |\ V /  | |____ | | | || (_| || || | | |  ____) || || | | | | | 
  |_|  |_| \__,_||_|   |_|\_\\___/  \_/    \_____||_| |_| \__,_||_||_| |_| |_____/ |_||_| |_| |_|
             ";
-        public const string MatrixMenuHeader = "Select a matrix file. Press 'Q' to return to the main menu.";
+        public const string MatrixMenuHeader = "Select a matrix file. Press 'Q' to return to the previous menu.";
         public const string MarkovMenuHeader = "Select Markov Process to simulate";
         
         
@@ -38,6 +38,7 @@ namespace CTMC
         //Paths
         public static string ApplicationDataPath;
         public static string MatricesPath;
+        public static string SimulationLogsPath;
         
         //Menus
         public static MainMenu MainMenuInstance;

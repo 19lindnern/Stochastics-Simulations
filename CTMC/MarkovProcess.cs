@@ -39,7 +39,7 @@ namespace CTMC
             SimCounter = 0;
             Name = name;
         }
-
+        
         public void PrintMatrix()
         {
             Console.Out.WriteLine(Generator.ToString());
@@ -77,11 +77,11 @@ namespace CTMC
 
         public void Simulate(double maxTime)
         {
+            SimData.Clear();
             while (Time < maxTime)
             {
                 Jump();
             }
-
             SimCounter++;
         }
 
@@ -109,6 +109,11 @@ namespace CTMC
         public string GetName()
         {
             return Name;
+        }
+
+        public int GetSimCount()
+        {
+            return SimCounter;
         }
     }
 }

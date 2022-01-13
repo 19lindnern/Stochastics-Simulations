@@ -22,6 +22,7 @@ namespace CTMC
         
         public static void Main(string[] args)
         {
+            Console.CursorVisible = false;
             InitialState = 0;
             
             //Set up application data path
@@ -40,13 +41,20 @@ namespace CTMC
                 Directory.CreateDirectory(Globals.ApplicationDataPath);
             }
             
-            
             //Create Matrix Path if it doesnt exist
             if (!Directory.Exists(Globals.MatricesPath))
             {
                 Directory.CreateDirectory(Globals.MatricesPath);
             }
 
+            //Create Session Directory.
+            Globals.SimulationLogsPath = Path.Combine(Globals.ApplicationDataPath, "SimulationLogs");
+
+            if (!Directory.Exists(Globals.SimulationLogsPath))
+            {
+                Directory.CreateDirectory(Globals.SimulationLogsPath);
+            }
+            
             Globals.MarkovProcesses = new List<MarkovProcess>();
             
             Globals.MainMenuInstance = new MainMenu(Globals.MainMenuHeader, Globals.MainMenuOptions);
@@ -61,43 +69,6 @@ namespace CTMC
             {
                 Globals.Controller.Run();
             }
-        }
-        
-        public static void SetInitialState()
-        {
-            Console.Clear();
-            try
-            {
-                Console.WriteLine($"Set initial state. Must be between 0 and {Q.GetCols().ToString()}");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Please choose a matrix first!");
-                Console.ReadKey(true);
-                return;
-            }
-            
-            string input = Console.ReadLine();
-            try
-            {
-                int state = Int32.Parse(input);
-                if (state >= Q.GetCols() || state < 0)
-                {
-                    throw new ArgumentException("Invalid user input");
-                }
-
-                InitialState = state;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Invalid Input. Press any key to continue");
-                Console.ReadKey(true);
-                SetInitialState();
-            }
-        }
-        public static void RunSimulationMenu()
-        {
-            
         }
         
         private static void GetMatrixFromUser(string matrixFilePath)
